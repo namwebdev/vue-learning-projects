@@ -11,12 +11,30 @@
                 <SidebarButton :show-label="isSidebarOpen" label="Locations" icon="tabler:map" href="/dashboard" />
                 <SidebarButton :show-label="isSidebarOpen" label="Add Location" icon="tabler:circle-plus-filled"
                     href="/dashboard/add" />
-                <div class="divider" />
+                <div v-if="sidebarStore.loading || sidebarStore.sidebarItems.length" class="divider" />
+                <div v-if="sidebarStore.loading" class="px-4">
+                    <div class="skeleton h-4 w-full" />
+                </div>
+
+                <div v-if="!sidebarStore.loading && sidebarStore.sidebarItems.length" class="flex flex-col">
+          <SidebarButton
+            v-for="item in sidebarStore.sidebarItems"
+            :key="item.id"
+            :show-label="isSidebarOpen"
+            :label="item.label"
+            :icon="item.icon"
+            :href="item.href"
+            :icon-color="mapStore.selectedPoint === item.location ? 'text-accent' : undefined"
+            @mouseenter="mapStore.selectedPoint = item.location ?? null"
+            @mouseleave="mapStore.selectedPoint = null"
+          />
+        </div>
+
                 <SidebarButton :show-label="isSidebarOpen" label="Sign Out" icon="tabler:logout-2" href="/sign-out" />
             </div>
         </div>
 
-        <div class="flex-1">
+        <div class="flex-1 flex flex-col">
             <NuxtPage />
         </div>
     </div>
@@ -29,6 +47,7 @@ const isSidebarOpen = ref(false);
 const route = useRoute();
 const sidebarStore = useSidebarStore();
 const locationsStore = useLocationStore();
+const mapStore = useMapStore();
 
 onMounted(() => {
     isSidebarOpen.value = localStorage.getItem(SIDEBAR_STORAGE_KEY) === "true";

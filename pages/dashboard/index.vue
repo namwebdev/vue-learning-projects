@@ -8,8 +8,14 @@
             <span class="loading loading-spinner loading-xl" />
         </div>
 
-        <div v-else-if="data && data.length > 0" class="flex flex-wrap mt-4 gap-2">
-            <div v-for="location in data" :key="location.id" class="card card-compact bg-base-300 h-40 w-72">
+        <div v-else-if="data && data.length > 0" class="flex flex-nowrap mt-4 gap-2 overflow-auto">
+            <div v-for="location in data" :key="location.id"   class="card card-compact bg-base-300 h-32 border-2 w-52 mb-2 shrink-0 hover:cursor-pointer"
+         :class="{
+           'border-accent': location === mapStore.selectedPoint,
+           'border-transparent': location !== mapStore.selectedPoint,
+         }"
+         @mouseenter="mapStore.selectedPoint = location"
+         @mouseleave="mapStore.selectedPoint = null">
                 <div class="card-body">
                     <h3 class="text-xl">{{ location.name }}</h3>
                     <p>{{ location.description }}</p>
@@ -25,12 +31,13 @@
             </NuxtLink>
         </div>
     </div>
+    <AppMap class="flex-1" />
 </template>
 
 <script setup lang="ts">
 const { data, status } = await useFetch("/api/locations", {
     lazy: true,
 })
+
+const mapStore = useMapStore();
 </script>
-
-

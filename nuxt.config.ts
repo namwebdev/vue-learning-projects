@@ -11,11 +11,17 @@ export default defineNuxtConfig({
     }],
     "@pinia/nuxt",
     "@vee-validate/nuxt",
+    "nuxt-maplibre",
   ],
   css: ["~/assets/css/main.css"],
   vite: {
     plugins: [
       tailwindcss(),
     ],
+    optimizeDeps: {
+      include: [
+        "maplibre-gl",
+      ],
+    },
   },
 })
