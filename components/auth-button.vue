@@ -20,7 +20,6 @@
     </div>
 
     <button v-else :disabled="authStore.loading" class="btn btn-accent min-w-[150px]" @click="authStore.signIn">
-
         <span v-if="authStore.loading" class="loading loading-spinner loading-md" />
         <div v-else class="flex items-center gap-2">
             Sign In With Github

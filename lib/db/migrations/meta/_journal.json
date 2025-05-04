@@ -15,6 +15,13 @@
       "when": 1746183456717,
       "tag": "0001_outstanding_oracle",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1746266704609,
+      "tag": "0002_bored_living_mummy",
+      "breakpoints": true
     }
   ]
 }

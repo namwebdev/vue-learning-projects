@@ -10,6 +10,7 @@ export default defineNuxtConfig({
       dataValue: "theme",
     }],
     "@pinia/nuxt",
+    "@vee-validate/nuxt",
   ],
   css: ["~/assets/css/main.css"],
   vite: {
