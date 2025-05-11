@@ -10,6 +10,10 @@
   @apply px-2;
 }
 
+.page-content-top {
+  @apply py-4 px-6 min-h-72;
+}
+
 html[data-theme="dark"] {
   .maplibregl-popup-content {
     @apply text-white bg-gray-800;

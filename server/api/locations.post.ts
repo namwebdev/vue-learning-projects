@@ -5,19 +5,12 @@ import { createLocation, findLocationBySlug } from "~/lib/db/queries/location";
 import db from "~/lib/db"
 import { generateNanoId } from "~/utils/index";
 import defineAuthenticatedEventHandler from "~/utils/define-authenticated-event-handler";
+import sendZodError from "~/utils/send-zod-error";
 
 export default defineAuthenticatedEventHandler(async (event) => {
     const user = event.context.user
     const result = await readValidatedBody(event, CreateLocation.safeParse)
-    if (!result.success) {
-        const statusMessage = result.error.issues.map(issue => `${issue.path.join(".")}: ${issue.message}`).join(", ")
-        const data = result.error.issues.reduce((errors, issue) => {
-            errors[issue.path.join(".")] = issue.message
-            return errors
-        }, {} as Record<string, string>);
-
-        return sendError(event, createError({ statusCode: 422, statusMessage, data }))
-    }
+    if (!result.success) return sendZodError(event, result.error)
 
     const existingLocation = await db.query.location.findFirst({
         where: and(
